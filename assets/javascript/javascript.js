@@ -1,38 +1,69 @@
 $( document ).ready(function(){
 
+
 	var topics = ["Beyonce", "Viola Davis", "One Direction", "Kardashians"]
     
-  function displayGif() {
-    var topic = $(this).attr("data-name")
-    // Giphy API
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=dc6zaTOxFJmzC&limit=10";
 
+function displayGifInfo() {
+// var topic = $(this).attr("data-name")
+
+$("#buttons-view").on("click", function(){
+
+  // Clear gifs before loading new ones
+  $("#gif-view").empty();
+
+  var topic = $(this).attr("data-name")
+
+    // Giphy API
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+         topics + "&api_key=dc6zaTOxFJmzC&limit=10";
     $.ajax({
       url: queryURL,
-      method: 'GET'
+      method: "GET"
     }).done(function(response) {
+      console.log(queryURL)
+      console.log(response)
+
       var results = response.data;
 
-      for(var i = 0; i < results.length; i++) {
-      // Creating a div to hold the gif
-      var gifDiv = $("<div class ='gif'>")
+      for (var i = 0; i < results.length; i++){
 
-      var rating = results[i].rating;
+      // Creating a div to hold the gif
+      var gifDiv = $("<div>")
 
       // Element that has the gif rating
-      var pOne = $("<p>").text("rating" + rating);
+      var p = $("<p>").text("Rating " + results[i].rating);
 
-      var gifImage = $("<img>");
-      gifImage.attr("src", results[i].images.finxed_height.url)
-
-      gifDiv.prepend(p)
-      gifDiv.append(pOne);
+      var gipImage = $('<img>');
+                animateUrl = results[i].images.fixed_height.url;
+                staticUrl = results[i].images.fixed_height_still.url; 
+                gipImage.attr('src', animateUrl);
+                gipImage.attr('data-state', "animate");
+                gipImage.attr('data-animate', animateUrl);  
+                gipImage.attr('data-still', staticUrl); 
+                gipImage.attr('class', "giphyItem");
+                var gifDiv = $('<div class="item">');
+      
+      gifDiv.append(p);
+      gifDiv.append(gipImage);
 
       $("#gif-view").prepend(gifDiv);
+
+
   };
+  
     });
 
-  }
+  
+});
+};
+
+displayGifInfo()
+
+function replaceSpace(string) {
+  alteredString = string.replace(/ /g, "+");
+  return alteredString
+}
 
   function renderButtons(){
 
@@ -48,19 +79,20 @@ $( document ).ready(function(){
 
         $("#buttons-view").append(a);
     }
+    
   }
+  renderButtons()
 
   $("#add-gif").on("click", function(event) {
         event.preventDefault();
-        // This line grabs the input from the textbox
-        var topic = $("#gif-input").val().trim();
+        // This line grabs the text from the textbox
+        var giphy = $("#gif-input").val().trim();
 
-        // Adding movie from the textbox to our array
-        topics.push(topic);
+        // Adding gif from the textbox to our array
+        topics.push(giphy);
 
-        // Calling renderButtons which handles the processing of our movie array
+        // Calling renderButtons which handles the processing of the gif array
         renderButtons();
       });
-
 
 });
