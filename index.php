@@ -1,1 +1,1 @@
-<?php include_once("javascript.js"); ?>
+<?php include_once("index.html"); ?>
