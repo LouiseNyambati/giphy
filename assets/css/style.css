@@ -1,5 +1,5 @@
 body{
-	background: url("../images/background.jpg");
+	background: url("../images/fade.jpg");
 	background-size: 100%;
     background-repeat: no-repeat;
     color: black;
@@ -15,7 +15,8 @@ img {
     /* adding spacing between each button*/
     margin: 3px;
     background-color: aqua;
-    border-color: #fff;
+    border-color: black;
+		color: black;
 }
 .gifDiv{
     /* making the images go in one line rather than block & adding spacing between the images*/
@@ -35,4 +36,7 @@ img {
 }
 #copyright{
 	font-size: 14px;
+}
+h1 {
+	font-family: Arial Black;
 }
